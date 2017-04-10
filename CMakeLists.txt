@@ -2,16 +2,14 @@ cmake_minimum_required(VERSION 3.5)
 project(microbench)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
+# set default build type
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
 
 include(${PROJECT_SOURCE_DIR}/cmake/ExternalPackages.cmake)
 
 find_package(Threads REQUIRED)
-
-#Only works when install was already filled:
-#set_property(
-#  TARGET google_benchmark
-#  PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
-#)
 
 set(sources
   src/benchmark.cpp
@@ -21,7 +19,7 @@ add_executable(bench ${sources})
 
 target_include_directories(bench
   PUBLIC ${PROJECT_SOURCE_DIR}/include
-  PRIVATE ${external_includes}
+  PRIVATE ${external_INCLUDE_DIRS}
 )
 
 add_dependencies(bench
